@@ -1,19 +1,19 @@
 #!/bin/bash
 
-SAVE_NAME="CHANGEME" # The name of the save file. No saces or special characters. Underscores allowed.
-SERVER_NAME="CHANGEME" # What will your server be called in the listings?
-SERVER_PASSWORD="CHANGEME"
-ADMIN_PASSWORD="CHANGEME"
-WORLD="mars" # moon | mars | europa | mimas | vulcan | venus
-RESPAWN_CONDITION="Stationeer" # Easy | Normal | Stationeer
+SAVE_NAME='CHANGEME' # The name of the save file.
+SERVER_NAME='CHANGEME' # What will your server be called in the listings?
+SERVER_PASSWORD='CHANGEME'
+ADMIN_PASSWORD='CHANGEME'
+WORLD='mars' # moon | mars | europa | mimas | vulcan | venus
+RESPAWN_CONDITION='Stationeer' # Easy | Normal | Stationeer
 MAX_PLAYERS=4
 SAVE_INTERVAL=600
 GAME_PORT=27016
 UPDATE_PORT=27015
-SERVER_VISIBLE="true"
-START_LOCALHOST="true"
-AUTOSAVE="true"
-AUTO_PAUSE="true"
+SERVER_VISIBLE='true'
+START_LOCALHOST='true'
+AUTOSAVE='true'
+AUTO_PAUSE='true'
 
 BASE_DIR="${HOME}/.steam/steamcmd"
 STEAMCMD="${BASE_DIR}/steamcmd.sh"
@@ -21,7 +21,7 @@ SERVER_DIR="${HOME}/.steam/steamcmd/stationeers_ds"
 SERVER_APP_ID=600760
 TMUX_SESSION="stationeers-ds"
 
-SERVER_START_PARAMS="-loadlatest ${SAVE_NAME} ${WORLD} -settings StartLocalHost ${START_LOCALHOST} ServerVisible ${SERVER_VISIBLE} GamePort ${GAME_PORT} UpdatePort ${UPDATE_PORT} AutoSave ${AUTOSAVE} AutoPauseServer ${AUTO_PAUSE} SaveInterval ${SAVE_INTERVAL} RespawnCondition ${RESPAWN_CONDITION} ServerName \"${SERVER_NAME}\" ServerMaxPlayers ${MAX_PLAYERS} ServerPassword ${SERVER_PASSWORD} AdminPassword ${ADMIN_PASSWORD} LocalIpAddress 0.0.0.0"
+SERVER_START_PARAMS="-loadlatest \"${SAVE_NAME}\" ${WORLD} -settings StartLocalHost ${START_LOCALHOST} ServerVisible ${SERVER_VISIBLE} GamePort ${GAME_PORT} UpdatePort ${UPDATE_PORT} AutoSave ${AUTOSAVE} AutoPauseServer ${AUTO_PAUSE} SaveInterval ${SAVE_INTERVAL} RespawnCondition ${RESPAWN_CONDITION} ServerName \"${SERVER_NAME}\" ServerMaxPlayers ${MAX_PLAYERS} ServerPassword \"${SERVER_PASSWORD}\" AdminPassword \"${ADMIN_PASSWORD}\" LocalIpAddress 0.0.0.0"
 
 if [ ! -d "${BASE_DIR}" ]; then
     echo "SteamCMD is not installed... installing to ${BASE_DIR}"
