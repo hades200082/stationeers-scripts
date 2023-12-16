@@ -52,7 +52,7 @@ These commands both do the same thing.
 ./stationeers.sh stop
 ```
 
-This will attempt to save the world and stop the server gracefully. If it takes too long it will just kill it.
+This will attempt to save the world and stop the server gracefully. If it takes too long (>10 secs) it will just kill it.
 
 ### Kill the server
 
@@ -68,7 +68,7 @@ This will just kill the server. No save. No graceful shutdown.
 ./stationeers.sh update
 ```
 
-This does the same as `install`.
+Updates the server files from SteamCMD and then restarts the server instance.
 
 ### View the server console
 

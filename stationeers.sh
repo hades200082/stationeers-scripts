@@ -1,5 +1,6 @@
 #!/bin/bash
 
+UPDATE_ON_START=0 # Use SteamCMD to update the server on startup. 1 = true | 0 = false
 SAVE_NAME='CHANGEME' # The name of the save file.
 SERVER_NAME='CHANGEME' # What will your server be called in the listings?
 SERVER_PASSWORD='CHANGEME'
@@ -43,15 +44,30 @@ install() {
     fi
 }
 
+update(){
+    if [UPDATE_ON_START = 0]; then
+        install
+    fi
+
+    start
+}
+
 start() {
-    install # Update server on start
+    if [UPDATE_ON_START = 1]; then
+        install
+    fi
 
     # If it's already running, stop it
-    stop
+    if tmux has-session -t "${TMUX_SESSION}" > /dev/null 2>&1; then
+        stop
+    fi
 
     # Create the new tmux session & start the server
     echo "About to start server using the following command:"
-    echo "$> ${SERVER_DIR}/rocketstation_DedicatedServer.x86_64 ${SERVER_START_PARAMS}"
+    echo "#####"
+    echo "${SERVER_DIR}/rocketstation_DedicatedServer.x86_64 ${SERVER_START_PARAMS}"
+    echo "#####"
+    echo
     tmux new-session -d -s "${TMUX_SESSION}"
     echo "tmux session ${TMUX_SESSION} started"
     tmux send -t "${TMUX_SESSION}" "${SERVER_DIR}/rocketstation_DedicatedServer.x86_64 ${SERVER_START_PARAMS}" ENTER
@@ -73,7 +89,6 @@ console() {
 }
 
 stop() {
-    echo "Stop command issued"
     if tmux has-session -t "${TMUX_SESSION}" > /dev/null 2>&1; then
         echo "tmux session exists, attempting graceful server shutdown"
         tmux send -t "${TMUX_SESSION}" save "${SAVE_NAME}" ENTER
@@ -101,11 +116,11 @@ case "$1" in
     start) start ;;
     restart) start ;;
     stop) stop ;;
-    update) install ;;
+    update) update ;;
     console) console ;;
     kill) kill ;;
     *)
-        echo "Usage: $0 {install|start|stop|restart|update|console}"
+        echo "Usage: $0 {install|update|start|restart|stop|kill|console}"
         exit 1
 esac
 
