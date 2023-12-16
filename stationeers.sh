@@ -20,6 +20,7 @@ AUTOSAVE='true'
 SAVE_INTERVAL=600 # Ignored if autosave is false
 
 # Server & networking settings (advanced - if unsure leave these alone)
+LOCAL_IP='0.0.0.0'
 GAME_PORT=27016
 UPDATE_PORT=27015
 SERVER_VISIBLE='true'
@@ -33,7 +34,7 @@ TMUX_SESSION="stationeers-ds" # The name of the tmux window/session
 
 SERVER_APP_ID=600760
 
-SERVER_START_PARAMS="-loadlatest \"${SAVE_NAME}\" ${WORLD} -settings StartLocalHost ${START_LOCALHOST} ServerVisible ${SERVER_VISIBLE} GamePort ${GAME_PORT} UpdatePort ${UPDATE_PORT} AutoSave ${AUTOSAVE} AutoPauseServer ${AUTO_PAUSE} SaveInterval ${SAVE_INTERVAL} RespawnCondition ${RESPAWN_CONDITION} ServerName \"${SERVER_NAME}\" ServerMaxPlayers ${MAX_PLAYERS} ServerPassword \"${SERVER_PASSWORD}\" AdminPassword \"${ADMIN_PASSWORD}\" LocalIpAddress 0.0.0.0"
+SERVER_START_PARAMS="-nographics -loadlatest '${SAVE_NAME}' ${WORLD} -settings StartLocalHost ${START_LOCALHOST} ServerVisible ${SERVER_VISIBLE} GamePort ${GAME_PORT} UpdatePort ${UPDATE_PORT} AutoSave ${AUTOSAVE} AutoPauseServer ${AUTO_PAUSE} SaveInterval ${SAVE_INTERVAL} RespawnCondition ${RESPAWN_CONDITION} ServerName '${SERVER_NAME}' ServerMaxPlayers ${MAX_PLAYERS} ServerPassword '${SERVER_PASSWORD}' AdminPassword '${ADMIN_PASSWORD}' LocalIpAddress ${LOCAL_IP}"
 
 if [ ! -d "${BASE_DIR}" ]; then
     echo "SteamCMD is not installed... installing to ${BASE_DIR}"
@@ -56,7 +57,7 @@ install() {
 }
 
 update(){
-    if [UPDATE_ON_START = 0]; then
+    if [${UPDATE_ON_START} = 0]; then
         install
     fi
 
@@ -64,7 +65,7 @@ update(){
 }
 
 start() {
-    if [UPDATE_ON_START = 1]; then
+    if [${UPDATE_ON_START} = 1]; then
         install
     fi
 
