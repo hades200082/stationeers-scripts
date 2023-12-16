@@ -4,7 +4,7 @@ The purpose of this script is to help server admins create & manage a Stationeer
 
 It runs the server in a tmux window to leave your console free for other commands.
 
-## Get the script
+## Installation / configuration
 
 Run the following command to get the script on your linux server.
 
@@ -12,9 +12,9 @@ Run the following command to get the script on your linux server.
 wget -O stationeers.sh https://raw.githubusercontent.com/hades200082/stationeers-scripts/main/stationeers.sh && chmod +x stationeers.sh
 ```
 
-## Edit the settings
+**Next, Edit the settings**
 
-At the top of the script are a number of settings that you can customise to suite your needs.
+At the top of the script are a number of settings that you can customise to suite your needs. Be sure to change the ones that are set to "CHANGEME"!
 
 ## Usage
 
@@ -24,7 +24,7 @@ Once you've customised the settings, install the dedicated server:
 ./stationeers.sh install
 ```
 
-OR just ask it to start the server:
+OR, if you've set `UPDATE_ON_START=1` you just start the server:
 
 ```bash
 ./stationeers.sh start

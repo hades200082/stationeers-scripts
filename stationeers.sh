@@ -1,26 +1,37 @@
 #!/bin/bash
 
+##### Edit these settings
 UPDATE_ON_START=0 # Use SteamCMD to update the server on startup. 1 = true | 0 = false
-SAVE_NAME='CHANGEME' # The name of the save file.
-SERVER_NAME='CHANGEME' # What will your server be called in the listings?
-SERVER_PASSWORD='CHANGEME'
-ADMIN_PASSWORD='CHANGEME'
+
+# Game settings
 WORLD='mars' # moon | mars | europa | mimas | vulcan | venus
 RESPAWN_CONDITION='Stationeer' # Easy | Normal | Stationeer
+AUTO_PAUSE='true' # does the game pause when no players are online?
+
+# Server connection settings
+SERVER_NAME='CHANGEME' # What will your server be called in the listings?
+SERVER_PASSWORD='CHANGEME' # Your players will need to enter this password
+ADMIN_PASSWORD='CHANGEME' # Used for admin commands
 MAX_PLAYERS=4
-SAVE_INTERVAL=600
+
+# Save settings
+SAVE_NAME='CHANGEME' # The name of the save file.
+AUTOSAVE='true'
+SAVE_INTERVAL=600 # Ignored if autosave is false
+
+# Server & networking settings (advanced - if unsure leave these alone)
 GAME_PORT=27016
 UPDATE_PORT=27015
 SERVER_VISIBLE='true'
 START_LOCALHOST='true'
-AUTOSAVE='true'
-AUTO_PAUSE='true'
+BASE_DIR="${HOME}/.steam/steamcmd" # Where to install SteamCMD
+STEAMCMD="${BASE_DIR}/steamcmd.sh" # Path to SteamCMD executable
+SERVER_DIR="${HOME}/.steam/steamcmd/stationeers_ds" # Where to put the server software
+TMUX_SESSION="stationeers-ds" # The name of the tmux window/session
 
-BASE_DIR="${HOME}/.steam/steamcmd"
-STEAMCMD="${BASE_DIR}/steamcmd.sh"
-SERVER_DIR="${HOME}/.steam/steamcmd/stationeers_ds"
+##### Stop editing
+
 SERVER_APP_ID=600760
-TMUX_SESSION="stationeers-ds"
 
 SERVER_START_PARAMS="-loadlatest \"${SAVE_NAME}\" ${WORLD} -settings StartLocalHost ${START_LOCALHOST} ServerVisible ${SERVER_VISIBLE} GamePort ${GAME_PORT} UpdatePort ${UPDATE_PORT} AutoSave ${AUTOSAVE} AutoPauseServer ${AUTO_PAUSE} SaveInterval ${SAVE_INTERVAL} RespawnCondition ${RESPAWN_CONDITION} ServerName \"${SERVER_NAME}\" ServerMaxPlayers ${MAX_PLAYERS} ServerPassword \"${SERVER_PASSWORD}\" AdminPassword \"${ADMIN_PASSWORD}\" LocalIpAddress 0.0.0.0"
 
@@ -91,7 +102,7 @@ console() {
 stop() {
     if tmux has-session -t "${TMUX_SESSION}" > /dev/null 2>&1; then
         echo "tmux session exists, attempting graceful server shutdown"
-        tmux send -t "${TMUX_SESSION}" save "${SAVE_NAME}" ENTER
+        tmux send -t "${TMUX_SESSION}" save "\"${SAVE_NAME}\"" ENTER
         echo "game save command sent"
         sleep 5
         tmux send -t "${TMUX_SESSION}" quit ENTER
