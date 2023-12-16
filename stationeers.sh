@@ -1,11 +1,11 @@
 #!/bin/bash
 
-SAVE_NAME="CHANGEME"
-SERVER_NAME="CHANGEME"
+SAVE_NAME="CHANGEME" # The name of the save file. No saces or special characters. Underscores allowed.
+SERVER_NAME="CHANGEME" # What will your server be called in the listings?
 SERVER_PASSWORD="CHANGEME"
 ADMIN_PASSWORD="CHANGEME"
-WORLD="mars"
-RESPAWN_CONDITION="stationeer"
+WORLD="mars" # moon | mars | europa | mimas | vulcan | venus
+RESPAWN_CONDITION="Stationeer" # Easy | Normal | Stationeer
 MAX_PLAYERS=4
 SAVE_INTERVAL=600
 GAME_PORT=27016
@@ -21,7 +21,7 @@ SERVER_DIR="${HOME}/.steam/steamcmd/stationeers_ds"
 SERVER_APP_ID=600760
 TMUX_SESSION="stationeers-ds"
 
-SERVER_START_PARAMS="-loadlatest ${SAVE_NAME} ${WORLD} -settings StartLocalHost ${START_LOCALHOST} ServerVisible ${SERVER_VISIBLE} GamePort ${GAME_PORT} UpdatePort ${UPDATE_PORT} AutoSave ${AUTOSAVE} AutoPauseServer ${AUTO_PAUSE} SaveInterval ${SAVE_INTERVAL} RespawnCondition ${RESPAWN_CONDITION} ServerName ${SERVER_NAME} ServerMaxPlayers ${MAX_PLAYERS} ServerPassword ${SERVER_PASSWORD} AdminPassword ${ADMIN_PASSWORD} LocalIpAddress 0.0.0.0"
+SERVER_START_PARAMS="-loadlatest ${SAVE_NAME} ${WORLD} -settings StartLocalHost ${START_LOCALHOST} ServerVisible ${SERVER_VISIBLE} GamePort ${GAME_PORT} UpdatePort ${UPDATE_PORT} AutoSave ${AUTOSAVE} AutoPauseServer ${AUTO_PAUSE} SaveInterval ${SAVE_INTERVAL} RespawnCondition ${RESPAWN_CONDITION} ServerName \"${SERVER_NAME}\" ServerMaxPlayers ${MAX_PLAYERS} ServerPassword ${SERVER_PASSWORD} AdminPassword ${ADMIN_PASSWORD} LocalIpAddress 0.0.0.0"
 
 if [ ! -d "${BASE_DIR}" ]; then
     echo "SteamCMD is not installed... installing to ${BASE_DIR}"
@@ -89,6 +89,13 @@ stop() {
     fi
 }
 
+kill() {
+    if tmux has-session -t "${TMUX_SESSION}" > /dev/null 2>&1; then
+        echo "tmux session exists - killing"
+        tmux kill-session -t "${TMUX_SESSION}"
+    fi
+}
+
 case "$1" in
     install) install ;;
     start) start ;;
@@ -96,6 +103,7 @@ case "$1" in
     stop) stop ;;
     update) install ;;
     console) console ;;
+    kill) kill ;;
     *)
         echo "Usage: $0 {install|start|stop|restart|update|console}"
         exit 1
